@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>todos</title>
+	<link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+	<h1 class="big-title">To Do List !</h1>
+	<div class="content">
+		<input type="text" id="input" placeholder="请输入代办事项" v-model="todo" @keyup.enter="addTodo()">
+		<div class="types">
+			<button v-for="button in buttons" @click="select(button)" v-bind:class="{selected:button.isChecked}">{{button.name}}</button>
+		</div>
+		<div class="tasks">
+			<ol>
+				<!-- 每一条todo -->
+				<li 
+					v-for="(item,index) in list" 
+					v-show="(type == item.isChecked) | all" 
+					v-bind:class="{hasDone:item.isChecked}" 
+					@dblclick="edit(item,index)"
+				>
+					<!-- 切换状态按钮 -->
+					<button 
+						class="ok" 
+						@click="changeState(item)">
+					OK
+					</button>
+					<!-- 每一条todo数据 -->
+					<span v-show="editIndex != index">{{item.name}}</span>
+					<!-- 删除按钮 -->
+					<button class="distory" @click="distory(item)">x</button>
+					<!-- 双击后弹出的编辑input框 -->
+					<input 
+						v-if="editIndex == index"
+						type="text" 
+						id="editing" 
+						v-model="editing" 
+						v-foucs="editIndex === index"
+						autocomplete="true"
+						@keyup.enter="edited(item)"
+						@blur="edited(item)"
+					>
+				</li>
+			</ol>
+		</div>
+	</div>
+	
+	<script type="text/javascript" src="vue.js"></script>
+	<script type="text/javascript">
+		//将值设置到localStorage中
+		var store = {
+			save(key,value){
+				localStorage.setItem(key,JSON.stringify(value));
+			},
+			fetch(key){
+				return JSON.parse(localStorage.getItem(key)) || [];
+			}
+		}
+		//从localStorage中取出所有的值
+		var list = store.fetch("todos");
+		var buttons =[
+			{
+				name:"未完成任务",
+				isChecked: true
+			},{
+				name:"已完成任务",
+				isChecked: false
+			},{
+				name:"所有任务",
+				isChecked: false
+			}
+		];
+		new Vue({
+			el:".content",
+			data:{
+				todo:"",	//存贮input框内内容
+				list: list,	//todos
+				buttons: buttons,	//切换三种状态到按钮
+				type: 0,	//用于切换用的计算变量
+				all: 0,		//用于切换用的计算变量
+				editing:"",	// 双击时弹出的input框
+				editIndex:-1	//正在编辑的行号
+			},
+			watch:{
+				//监控list这个属性，当这个属性对应的值发生变化就会执行函数
+				list:{
+					handler:function(){
+						store.save("todos",this.list)
+					},
+					deep:true	//为了发现对象内部值的变化，可以在选项参数中指定 deep: true 。
+				}
+			},
+			directives:{	//自定义事件，插入Dom时触发，获取焦点
+				"foucs":{
+					inserted(el,binding){
+						el.focus();
+					}
+				}
+			},
+			methods:{
+				addTodo(){	//增加一个todo
+					if(this.todo != ""){
+							this.list.push({
+							name:this.todo,
+							isChecked: false
+							})
+						this.todo = ""
+					}
+				},
+				changeState(item){	//改变todo的完成状态
+					item.isChecked = ! item.isChecked;
+				},
+				distory(item){		//删除一条todo，点击删除按扭时触发
+					let index = this.list.indexOf(item);
+					this.list.splice(index,1);
+				},
+				edit(item,index){	//编辑某条todo
+					this.editIndex = index;
+					this.editing = item.name;
+				},
+				edited(item){		//编辑完成，改变todo的name，将editIndex置为-1
+					item.name = this.editing;
+					this.editIndex = -1;
+				},
+				select(button){		//在3中状态下切换，改变展示区type
+					for(bt of this.buttons){
+						if(bt.name != button.name)
+							bt.isChecked = false;
+						else{
+							bt.isChecked = true;
+						}
+					}
+					switch(button.name){
+						case "未完成任务": this.type = 0; this.all = 0; break;
+						case "已完成任务": this.type = 1; this.all = 0; break;
+						case "所有任务": this.all = 1; this.type = 0; break;
+					}
+				}
+			}
+		})
+	</script>
+</body>
+</html>

@@ -1,0 +1,139 @@
+* {
+	margin: 0;
+	padding: 0;
+}
+
+.big-title {
+	background-color: orange;
+	text-align: center;
+	color: #fff;
+}
+
+.content {
+	width: 400px;
+	height: 600px;
+	margin: 0 auto;
+	padding-top: 20px;
+}
+
+#input {
+	display: block;
+	width: 200px;
+	height: 30px;
+	margin: 10px auto;
+	border: 1px solid orange;
+	border-style: none none solid none;
+	outline: none;
+}
+
+.hasDone {
+	color: #d9d9d9;
+	text-decoration: line-through;
+}
+
+.hasDone .ok {
+	color: #d9d9d9;
+}
+
+.types button {
+	background-color: orange;
+	display: inline-block;
+	margin: 10px 0 0 15px;
+	width: 120px;
+	height: 30px;
+	text-align: center;
+	line-height: 30px;
+	border-radius: 10px;
+	border: orange;
+	outline: none;
+	color: #eee;
+	cursor: pointer;
+}
+
+.types {
+	width: 600px;
+	margin: 10px auto;
+	height: 60px;
+}
+
+.types button:hover {
+	background-color: red;
+}
+
+.types button.selected {
+	background-color: red;
+}
+
+.tasks li {
+	display: block;
+	width: 420px;
+	display: block;
+	word-break: break-all;
+	margin: 8px;
+	text-indent: 5px;
+	letter-spacing: 1px;
+	background-color: #ffc;
+	border-radius: 15px;
+	line-height: 30px;
+}
+
+.tasks button {
+	width: 24px;
+	height: 24px;
+	border: none;
+	margin: 2px;
+	border-radius: 14px;
+	line-height: 24px;
+	cursor: pointer;
+}
+
+.tasks button.distory {
+	background-color: #fc0;
+	font-size: 20px;
+	outline: none;
+	float: right;
+}
+
+.tasks button.ok {
+	background-color: #cf6;
+	outline: none;
+}
+
+
+/*遮罩层实现*/
+
+.dialog {
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	left: 0;
+	top: 0;
+	z-index: 100;
+	display: none;
+}
+
+.dialogMask {
+	width: 100%;
+	z-index: 101;
+	height: 100%;
+	background-color: black;
+	filter: alpha(Opacity=30);
+	/* IE 浏览器支持 */
+	-moz-opacity: 0.3;
+	/* 遨游浏览器 火狐浏览器 支持 */
+	opacity: 0.3;
+	/* 支持CSS3的浏览器（FF 1.5也支持）*/
+	position: absolute;
+	top: 0px;
+	left: 0px;
+}
+.dialogBox{
+	width: 353px;
+    height: 355px;
+    border: solid 1px #eee;
+    background-color: #FFF;
+    position: absolute;
+    z-index: 105;
+    left: 423px;
+    top: 123px;
+}
