@@ -19,3 +19,53 @@ render() {
   )
 }
 ```
+
+#### className
+JSX标签中的class要更换为className
+
+#### lable
+在JSX中，lable标签中的for会与循环的for产生歧义，所以需要将lable标签中的for改为htmlFor
+```
+<label htmlFor="inputArea">这是一个lable </label>
+<input id="inputArea" value={this.state.value}/>
+```
+
+#### 删除列表中的项
+在React中有immutable的概念，即不要直接去修改state。当我们需要修改state时我们需要拷贝一份独立的副本，通过修改副本的方式修改值。
+```
+let todos = [...this.state.todos]
+todos.splice(index, 1)
+this.setState({todos: todos})
+```
+
+#### JSX中的注释
+```
+{/*多行或普通注释*/}
+{
+  //单行注释必须换行，否则就会把//后面的 "}" 号视为一个普通的字串
+}
+```
+
+#### 处理不想转义的字符串
+dangerouslySetInnerHTML是React提供的替换浏览器DOM中的innerHTML接口的一个函数。
+```
+function MyComponent() {
+  return <div dangerouslySetInnerHTML = {
+    {__html: someStr}
+  } />;
+}
+```
+
+#### setState(updater, callback)
+带签名的updater函数：
+```
+(prevState, props) => stateChange
+```
+我们最好将setSate写为：
+```
+this.setState(() => ({
+  value: newValue
+}))
+```
+#### 将render中的逻辑抽出来作为一个函数
+React中的函数也是可以返回函数的，比如我们有一坨代码是map啥的，稍微有一些长，但又不值得作为一个组件单独定义。这时候就把他封装到一个函数中。

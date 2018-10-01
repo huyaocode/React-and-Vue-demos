@@ -1,0 +1,10 @@
+body {
+  padding: 20px;
+}
+.submitBtn {
+  margin: 0 10px;
+  border-radius: 3px;
+  background-color: dodgerblue;
+  border: 1px solid #ccc;
+  outline: none;
+}
