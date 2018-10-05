@@ -1,4 +1,5 @@
 import React, { Fragment } from 'react'
+import axios from 'axios'
 import TodoItem from './TodoItem'
 import './style.css'
 
@@ -16,30 +17,39 @@ class Todolist extends React.Component {
   }
   //挂载前
   componentWillMount() {
-    console.log('componentWillMount')
+    //console.log('componentWillMount')
   }
   //挂载后
-  componentDidMount () {
-    console.log('componentDidMount')
+  //他只会在页面挂载好的时候执行一次，所以把Ajax请求放在这里最合理
+  componentDidMount() {
+    //console.log('componentDidMount')
+    axios
+      .get('api/todolist')
+      .then(() => {
+        alert('succ')
+      })
+      .catch(() => {
+        alert('fill')
+      })
   }
 
   //更新前询问是否更新
   shouldComponentUpdate() {
-    console.log('shouldComponentUpdate')
-    return true;
+    //console.log('shouldComponentUpdate')
+    return true
   }
   //更新前
   componentWillUpdate() {
-    console.log('componentWillUpdate');
+    //console.log('componentWillUpdate');
   }
   //更新后
   componentDidUpdate() {
-    console.log('componentDidUpdate');
-    console.log('');
+    //console.log('componentDidUpdate');
+    //console.log('');
   }
   //更新
   render() {
-    console.log('parent render')
+    //console.log('parent render')
     return (
       <Fragment>
         <div>
@@ -49,7 +59,9 @@ class Todolist extends React.Component {
             onChange={this.handleInput}
             value={this.state.value}
           />
-          <button className="submitBtn" onClick={this.handleSubmitClick}>提交</button>
+          <button className="submitBtn" onClick={this.handleSubmitClick}>
+            提交
+          </button>
         </div>
         <ol>{this.getTodoItem()}</ol>
       </Fragment>
@@ -77,7 +89,7 @@ class Todolist extends React.Component {
   }
 
   handleSubmitClick() {
-    if(this.state.value !== ''){
+    if (this.state.value !== '') {
       this.setState(prevState => ({
         todos: [...prevState.todos, prevState.value],
         value: ''
@@ -86,7 +98,7 @@ class Todolist extends React.Component {
   }
 
   handleItemDelete(index) {
-    this.setState((prevState) => {
+    this.setState(prevState => {
       const list = [...prevState.todos]
       list.splice(index, 1)
       return { todos: list }
