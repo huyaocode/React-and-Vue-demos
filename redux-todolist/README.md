@@ -51,11 +51,11 @@ handleInputChange(e) {
 ### 第四步，在reducer中接收并相应action
 ```
 export default (state = defaultState, action) => {
- + if(action.type === 'change_input_value') {
- +     const newState = JSON.parse(JSON.stringify(defaultState));
- +     newState.inputValue = action.value;
- +     return newState;
- +   }
++ if(action.type === 'change_input_value') {
++     const newState = JSON.parse(JSON.stringify(defaultState));
++     newState.inputValue = action.value;
++     return newState;
++   }
   return state;
 }
 ```
@@ -66,15 +66,15 @@ export default (state = defaultState, action) => {
 class App extends Component {
   constructor(...props) {
     super(...props);
- +  this.state = store.getState();
- +  this.handleStoreChange = this.handleStoreChange.bind(this);
- +  //订阅stroe的改变，当stroe发生改变时调用这个函数。
- +  //这个函数将调用getState获取stroe中最新的state，并使用setState让组件相应state的变化
- +  store.subscribe(this.handleStoreChange) 
++  this.state = store.getState();
++  this.handleStoreChange = this.handleStoreChange.bind(this);
++  //订阅stroe的改变，当stroe发生改变时调用这个函数。
++  //这个函数将调用getState获取stroe中最新的state，并使用setState让组件相应state的变化
++  store.subscribe(this.handleStoreChange) 
   }
 
- + //添加下面的订阅函数
- + handleStoreChange() {
- +   this.setState(() => store.getState())
- + }
++ //添加下面的订阅函数
++ handleStoreChange() {
++   this.setState(() => store.getState())
++ }
 ```
