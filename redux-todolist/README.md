@@ -49,7 +49,7 @@ handleInputChange(e) {
 ```
 
 ### 第四步，在reducer中接收并相应action
-```
+```diff
 export default (state = defaultState, action) => {
 + if(action.type === 'change_input_value') {
 +     const newState = JSON.parse(JSON.stringify(defaultState));
@@ -62,7 +62,7 @@ export default (state = defaultState, action) => {
 
 ### 第五步，订阅store的改变并获取state
 在组件的constructor中订阅store的改变，并使用store.getState()获取最新的state
-```
+```diff
 class App extends Component {
   constructor(...props) {
     super(...props);
