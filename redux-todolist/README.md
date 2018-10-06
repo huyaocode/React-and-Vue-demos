@@ -1,5 +1,6 @@
 # redux-todolist
 
+![Redux数据流](https://upload-images.jianshu.io/upload_images/13627346-fa223790583e59b9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
 ### 第一步，定义store
    store是信息的中转站,它接受来自组件的action，并将action和现在的state转发给ruducer；它也接受reducer的返回的新state，并将新的state传递给组件。
